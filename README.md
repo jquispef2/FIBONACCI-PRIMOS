@@ -240,7 +240,7 @@ if (contador === 2) {
 ## 🔗 Enlaces
 
 - 📁 **Repositorio GitHub:** [insertar enlace aquí]
-- 🌐 **Página publicada:** [insertar enlace aquí]
+- 🌐 **Página publicada:** https://jquispef2.github.io/FIBONACCI-PRIMOS/trabajo-primos-fibonacci/PAGINA_PRINCIPAL/HTML/index.html
 
 ---
 
