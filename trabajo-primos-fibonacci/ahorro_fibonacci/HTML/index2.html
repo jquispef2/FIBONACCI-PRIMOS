@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semilla de Ahorro · Fibonacci</title>
+  <link rel="stylesheet" href="../CSS/styles2.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div class="bg-layer">
+    <div class="spiral-ring r1"></div>
+    <div class="spiral-ring r2"></div>
+    <div class="spiral-ring r3"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-badge">Matemáticas · Vida Real</div>
+    <h1 class="hero-title">
+      <span class="title-line">Semilla</span>
+      <span class="title-line italic">de Ahorro</span>
+    </h1>
+    <p class="hero-sub">
+      ¿Y si tu ahorro creciera como la naturaleza misma?<br/>
+      La sucesión de Fibonacci convierte pequeños pasos en grandes resultados.
+    </p>
+    <div class="scroll-hint">↓ Descubre tu plan</div>
+  </header>
+
+  <section class="section context-section">
+    <div class="container two-col">
+      <div class="text-block">
+        <span class="label">El Problema</span>
+        <h2>Ahorrar sin esfuerzo extra,<br/>crecer de forma <em>natural</em></h2>
+        <p>
+          La mayoría de las personas abandona su plan de ahorro porque los saltos bruscos
+          de cuota desmotivan. La naturaleza resolvió este problema hace millones de años:
+          los girasoles, los caracoles, los árboles crecen siguiendo la sucesión de Fibonacci —
+          cada etapa es la suma de las dos anteriores. Pequeño al principio, extraordinario al final.
+        </p>
+        <p>
+          Este simulador aplica ese mismo patrón a tu bolsillo: defines cuántos meses
+          quieres ahorrar y nosotros calculamos cuánto depositar cada mes, cuánto acumulas
+          y cómo crece tu dinero mes a mes.
+        </p>
+      </div>
+      <div class="visual-block">
+        <div class="fib-visual">
+          <div class="fib-box size1"><span>1</span></div>
+          <div class="fib-box size2"><span>1</span></div>
+          <div class="fib-box size3"><span>2</span></div>
+          <div class="fib-box size4"><span>3</span></div>
+          <div class="fib-box size5"><span>5</span></div>
+          <div class="fib-box size6"><span>8</span></div>
+        </div>
+        <p class="visual-caption">Cada cuadro = suma de los dos anteriores</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section algo-section">
+    <div class="container">
+      <span class="label center">El Algoritmo</span>
+      <h2 class="center">Cómo funciona Fibonacci</h2>
+      <div class="algo-steps">
+        <div class="algo-card">
+          <div class="algo-num">01</div>
+          <h3>Inicio</h3>
+          <p>El mes 1 y el mes 2 siempre son <strong>Bs. 1</strong> — el punto de partida.</p>
+        </div>
+        <div class="algo-arrow">→</div>
+        <div class="algo-card">
+          <div class="algo-num">02</div>
+          <h3>Suma</h3>
+          <p>Cada mes siguiente = mes anterior + el mes antes de ese. Ejemplo: mes 3 = 1+1 = 2.</p>
+        </div>
+        <div class="algo-arrow">→</div>
+        <div class="algo-card">
+          <div class="algo-num">03</div>
+          <h3>Acumulado</h3>
+          <p>Se suma cada depósito al total anterior y se muestra el ahorro acumulado.</p>
+        </div>
+      </div>
+      <div class="code-snippet">
+        <pre><code>let a = 1, b = 1, c;
+for (let i = 3; i &lt;= meses; i++) {
+  c = a + b;   // siguiente Fibonacci
+  a = b;
+  b = c;
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="section sim-section" id="simulador">
+    <div class="container">
+      <span class="label center">Simulador</span>
+      <h2 class="center">Calcula tu plan de ahorro</h2>
+
+      <div class="sim-card">
+        <div class="sim-form">
+          <div class="field-group">
+            <label for="meses">¿Cuántos meses quieres ahorrar?</label>
+            <div class="input-wrap">
+              <input type="number" id="meses" min="2" max="30" value="12" placeholder="Ej: 12"/>
+              <span class="input-unit">meses</span>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="multiplicador">Multiplicador base (Bs.)</label>
+            <div class="input-wrap">
+              <input type="number" id="multiplicador" min="1" value="5" placeholder="Ej: 5"/>
+              <span class="input-unit">Bs.</span>
+            </div>
+            <small>Cada valor Fibonacci se multiplica por este número. Con 5 Bs: mes 1 = 5 Bs, mes 3 = 10 Bs…</small>
+          </div>
+
+          <button onclick="calcular()" class="btn-calcular">
+            <span class="btn-text">Calcular mi plan</span>
+            <span class="btn-icon">✦</span>
+          </button>
+        </div>
+
+        <div class="sim-result" id="resultado-area" style="display:none;">
+          <div class="result-summary">
+            <div class="summary-card">
+              <span class="s-label">Total acumulado</span>
+              <span class="s-value" id="total-acumulado">—</span>
+            </div>
+            <div class="summary-card accent">
+              <span class="s-label">Depósito final</span>
+              <span class="s-value" id="deposito-final">—</span>
+            </div>
+            <div class="summary-card">
+              <span class="s-label">Meses simulados</span>
+              <span class="s-value" id="meses-info">—</span>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="tabla-resultado">
+              <thead>
+                <tr>
+                  <th>Mes</th>
+                  <th>Depósito (Bs.)</th>
+                  <th>Acumulado (Bs.)</th>
+                  <th>Progreso</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-body"></tbody>
+            </table>
+          </div>
+
+          <div class="chart-area">
+            <h3>Crecimiento visual</h3>
+            <div class="bar-chart" id="bar-chart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section conclusion-section">
+    <div class="container center">
+      <span class="label center">Conclusión</span>
+      <h2>Pequeños pasos,<br/><em>grandes resultados</em></h2>
+      <p class="conclusion-text">
+        La sucesión de Fibonacci no es solo un patrón matemático — es la forma en que la
+        naturaleza construye cosas grandes desde cosas pequeñas. Al aplicarla al ahorro,
+        evitamos el choque de cuotas fijas altas y permitimos que el hábito crezca de forma
+        orgánica. Con tan solo <strong>Bs. 5 al inicio</strong>, en 12 meses puedes acumular
+        más de <strong>Bs. 700</strong> siguiendo este plan.
+      </p>
+      <div class="links-area">
+        <a href="https://github.com/tu-usuario/primos-fibonacci" class="link-btn" target="_blank">
+          ⌥ Repositorio Git
+        </a>
+        <a href="../../PAGINA_PRINCIPAL/HTML/index.html" class="link-btn accent-btn">
+          Ir a pagina principal
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Desafío Web 2026 · Fibonacci aplicado al ahorro · HTML + CSS + JavaScript</p>
+  </footer>
+
+  <script src="../JS/script2.js"></script>
+</body>
+</html>

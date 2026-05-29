@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PrimeCipher — Codificación con Números Primos</title>
+  <link rel="stylesheet" href="../CSS/styles3.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+  <canvas id="particles"></canvas>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <div>
+          <h1 class="logo-title">PrimeCipher</h1>
+          <p class="logo-sub">Codificación mediante Números Primos</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#cifrar">Cifrar</a>
+        <a href="#descifrar">Descifrar</a>
+        <a href="#algoritmo">Algoritmo</a>
+        <a href="#acerca">Acerca</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="badge">PROYECTO MATEMÁTICO</div>
+        <h2 class="hero-title">Los primos <span class="accent">protegen</span><br/>tus mensajes</h2>
+        <p class="hero-desc">
+          Desde el cifrado RSA hasta los protocolos HTTPS, los números primos son
+          la base de la seguridad digital moderna. Descubre cómo funcionan con
+          esta herramienta interactiva de codificación.
+        </p>
+        <div class="hero-stats">
+          <div class="stat"><span id="stat-count">0</span><small>Primos &lt; 1000</small></div>
+          <div class="stat"><span>RSA</span><small>Usa primos enormes</small></div>
+          <div class="stat"><span>∞</span><small>Primos infinitos</small></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="prime-grid" id="primeGrid"></div>
+      </div>
+    </section>
+
+    <section class="context-section" id="acerca">
+      <div class="container">
+        <div class="section-header">
+          <span class="tag">CONTEXTO</span>
+          <h2>¿Por qué los números primos protegen información?</h2>
+        </div>
+        <div class="cards-row">
+          <div class="info-card">
+            <div class="card-icon"></div>
+            <h3>Cifrado RSA</h3>
+            <p>El algoritmo RSA multiplica dos primos enormes. Factorizar ese producto toma miles de años con computadoras actuales.</p>
+          </div>
+          <div class="info-card">
+            <div class="card-icon"></div>
+            <h3>HTTPS / TLS</h3>
+            <p>Cada vez que ves el candado en tu navegador, hay números primos trabajando para proteger tus datos en tránsito.</p>
+          </div>
+          <div class="info-card">
+            <div class="card-icon"></div>
+            <h3>Códigos de acceso</h3>
+            <p>Un número primo no puede dividirse exactamente entre ningún número excepto 1 y sí mismo — eso lo hace impredecible y único.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-section" id="cifrar">
+      <div class="container">
+        <div class="section-header">
+          <span class="tag">HERRAMIENTA</span>
+          <h2>Cifrador Prime-Shift</h2>
+          <p class="section-desc">Convierte tu mensaje en un código cifrado usando una clave prima. Solo quien conozca la clave puede descifrarlo.</p>
+        </div>
+        <div class="tool-grid">
+          <div class="tool-panel">
+            <div class="panel-header">
+              <span class="panel-dot green"></span>
+              <span>Entrada de mensaje</span>
+            </div>
+            <div class="form-group">
+              <label for="mensajeCifrar">Mensaje a cifrar</label>
+              <textarea id="mensajeCifrar" placeholder="Escribe tu mensaje secreto aquí..." rows="5"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="claveCifrar">Clave primo (número)</label>
+                <div class="input-with-badge">
+                  <input type="number" id="claveCifrar" placeholder="ej. 13" min="2" />
+                  <span id="badgeCifrar" class="prime-badge">—</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="modoCifrar">Modo</label>
+                <select id="modoCifrar">
+                  <option value="shift">Prime-Shift (desplazamiento)</option>
+                  <option value="mult">Prime-Mult (multiplicación)</option>
+                  <option value="xor">Prime-XOR</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="cifrar()">
+              <span></span> Cifrar mensaje
+            </button>
+          </div>
+          <div class="tool-panel result-panel">
+            <div class="panel-header">
+              <span class="panel-dot red"></span>
+              <span>Resultado cifrado</span>
+            </div>
+            <div class="result-area" id="resultadoCifrado">
+              <div class="result-placeholder">El mensaje cifrado aparecerá aquí...</div>
+            </div>
+            <div class="result-meta" id="metaCifrado"></div>
+            <button class="btn btn-outline" onclick="copiarResultado('resultadoCifrado')" style="margin-top:1rem">
+               Copiar resultado
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-section alt-bg" id="descifrar">
+      <div class="container">
+        <div class="section-header">
+          <span class="tag">HERRAMIENTA</span>
+          <h2>Descifrador Prime-Shift</h2>
+          <p class="section-desc">Ingresa el mensaje cifrado y la misma clave prima usada para cifrarlo.</p>
+        </div>
+        <div class="tool-grid">
+          <div class="tool-panel">
+            <div class="panel-header">
+              <span class="panel-dot yellow"></span>
+              <span>Mensaje cifrado</span>
+            </div>
+            <div class="form-group">
+              <label for="mensajeDescifrar">Texto cifrado</label>
+              <textarea id="mensajeDescifrar" placeholder="Pega aquí el mensaje cifrado..." rows="5"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="claveDescifrar">Clave primo usada</label>
+                <div class="input-with-badge">
+                  <input type="number" id="claveDescifrar" placeholder="ej. 13" min="2" />
+                  <span id="badgeDescifrar" class="prime-badge">—</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="modoDescifrar">Modo</label>
+                <select id="modoDescifrar">
+                  <option value="shift">Prime-Shift (desplazamiento)</option>
+                  <option value="mult">Prime-Mult (multiplicación)</option>
+                  <option value="xor">Prime-XOR</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-secondary" onclick="descifrar()">
+              <span></span> Descifrar mensaje
+            </button>
+          </div>
+          <div class="tool-panel result-panel">
+            <div class="panel-header">
+              <span class="panel-dot green"></span>
+              <span>Mensaje descifrado</span>
+            </div>
+            <div class="result-area" id="resultadoDescifrado">
+              <div class="result-placeholder">El mensaje descifrado aparecerá aquí...</div>
+            </div>
+            <div class="result-meta" id="metaDescifrado"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-section" id="verificador">
+      <div class="container">
+        <div class="section-header">
+          <span class="tag">UTILIDAD</span>
+          <h2>Verificador de clave prima</h2>
+        </div>
+        <div class="verificador-box">
+          <div class="form-group">
+            <label for="numVerificar">Ingresa un número</label>
+            <input type="number" id="numVerificar" placeholder="ej. 97" min="2" class="big-input" />
+          </div>
+          <button class="btn btn-ghost" onclick="verificarPrimo()">Verificar</button>
+          <div id="resultadoVerificador" class="verificador-result"></div>
+          <div id="factoresVerificador" class="verificador-factores"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="algo-section" id="algoritmo">
+      <div class="container">
+        <div class="section-header">
+          <span class="tag">ALGORITMO</span>
+          <h2>¿Cómo funciona el cifrado?</h2>
+        </div>
+        <div class="algo-grid">
+          <div class="algo-card">
+            <div class="algo-num">01</div>
+            <h3>Prime-Shift</h3>
+            <p>Cada carácter se desplaza en el código ASCII sumando el valor primo de la clave. Para descifrar, se resta la misma clave.</p>
+            <div class="code-block">
+              <code>cifrado = char.charCodeAt(0) + clave<br/>descifrado = char.charCodeAt(0) − clave</code>
+            </div>
+          </div>
+          <div class="algo-card">
+            <div class="algo-num">02</div>
+            <h3>Prime-Mult</h3>
+            <p>El código ASCII se multiplica por la clave primo y se aplica módulo 256. Se usa el inverso modular para descifrar.</p>
+            <div class="code-block">
+              <code>cifrado = (charCode × clave) % 256<br/>descifrado = (cifrado × inverso) % 256</code>
+            </div>
+          </div>
+          <div class="algo-card">
+            <div class="algo-num">03</div>
+            <h3>Prime-XOR</h3>
+            <p>Operación XOR bit a bit entre el código del carácter y la clave. Aplicar XOR dos veces restaura el original.</p>
+            <div class="code-block">
+              <code>cifrado = charCode XOR clave<br/>descifrado = cifrado XOR clave</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conclusión -->
+    <section class="conclusion-section">
+      <div class="container">
+        <div class="conclusion-box">
+          <h2>¿Cómo ayuda la matemática a la seguridad?</h2>
+          <p>
+            Los números primos tienen una propiedad única: son <strong>irreductibles</strong>. No pueden
+            descomponerse en factores menores. Esta característica hace que los algoritmos basados
+            en primos sean extremadamente difíciles de romper sin conocer la clave original.
+          </p>
+          <p>
+            En la práctica, RSA usa primos de 1024 a 4096 bits. Con claves de este tamaño,
+            factorizar el producto tomaría más tiempo que la edad del universo con hardware actual.
+            Los números primos son, literalmente, la piedra angular de la seguridad digital.
+          </p>
+          <div class="conclusion-links" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <a href="https://github.com/usuario/primos-fibonacci" class="btn btn-outline" target="_blank"> Repositorio GitHub</a>
+            <!-- ============================================================
+                 ENLACE DE REGRESO A LA PÁGINA PRINCIPAL
+                 → Ajusta la ruta según donde tengas tu index.html principal,
+                   por ejemplo: href="../../PAGINA_PRINCIPAL/HTML/index.html"
+                 ============================================================ -->
+            <a href="../../PAGINA_PRINCIPAL/HTML/index.html" class="btn btn-ghost"> Volver a Página Principal</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>PrimeCipher · Desafío Web 2025 · Matemáticas aplicadas a la seguridad digital</p>
+    </div>
+  </footer>
+
+  <script src="../JS/script3.js"></script>
+</body>
+</html>
